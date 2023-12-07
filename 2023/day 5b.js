@@ -1,5 +1,5 @@
 let file = "./day 5 test input";
-file = "./day 5 input";
+//file = "./day 5 input";
 
 let input = require('fs').readFileSync(file, 'utf8').split("\n"),
     seeds = input.shift().split(" ").slice(1).map(v=>parseInt(v)),
@@ -15,19 +15,6 @@ let input = require('fs').readFileSync(file, 'utf8').split("\n"),
       return p;
     }, []);
 
-//seeds;
-//maps;
-
-Math.min(...maps.reduce((p,c)=>{
-  return p.map(v=> {
-      let map = c.filter(m=> v >= m[1] & v < m[1] + m[2] )[0];
-      return map ? map[0] + v - map[1] : v;
-  })
-}, seeds))
-
-
-
-
 const max_iteration = 2000000;
 let ranges = seeds.reduce((p,c,i, a)=>{
   if ( i % 2 === 0 ){
@@ -38,9 +25,6 @@ let ranges = seeds.reduce((p,c,i, a)=>{
     min = Number.MAX_SAFE_INTEGER,
     current = ranges.shift(),
     start = Date.now();
-
-console.log(current);
-// ranges.length = 0;
 
 let parse = ()=>{
   let i, j = 0, now = Date.now();
