@@ -1,7 +1,8 @@
+// https://adventofcode.com/2025/day/1
 const fs = require('fs');
-const data = fs.readFileSync('./1.txt', 'utf8');
+const input = fs.readFileSync('./input1.txt', 'utf8');
 
-const turns = data.split('\n').map(v => (v[0] === "L" ? -1 : 1) * (parseInt(v.slice(1)) % 100));
+const turns = input.split('\n').map(v => (v[0] === "L" ? -1 : 1) * (parseInt(v.slice(1)) % 100));
 
 let value = 50, zeros = 0;
 turns.forEach((v) => {

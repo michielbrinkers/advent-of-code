@@ -1,7 +1,8 @@
+// https://adventofcode.com/2025/day/1
 const fs = require('fs');
+const input = fs.readFileSync('./input1.txt', 'utf8');
 
-const data = fs.readFileSync('./1.txt', 'utf8');
-let lines = data.split('\n');
+let lines = input.split('\n');
 // lines = ["L1000"];
 // lines = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"];
 
