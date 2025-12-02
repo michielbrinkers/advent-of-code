@@ -4,8 +4,6 @@ const path = require('path');
 
 const args = process.argv.slice(2);
 
-const INVALID_INPUT = "Please don't repeatedly request this endpoint before it unlocks! The calendar countdown is synchronized with the server time; the link will be enabled on the calendar the instant this puzzle becomes available.";
-
 // Try to load .env
 const envPath = path.join(__dirname, '.env');
 if (fs.existsSync(envPath)) {
@@ -49,7 +47,7 @@ async function fetchInput(year, day) {
 			method: 'GET',
 			headers: {
 				'Cookie': `session=${session}`,
-				'User-Agent': 'github.com/michielbrinkers/advent-of-code by michielbrinkers@gmail.com'
+				'User-Agent': 'github.com/michielbrinkers/advent-of-code'
 			}
 		};
 
@@ -90,12 +88,9 @@ async function fetchInput(year, day) {
 		const txtFile = path.join(dayDir, `input${i}.txt`);
 		if (!fs.existsSync(txtFile)) {
 			const inputData = await fetchInput(year, i);
-			if (inputData !== INVALID_INPUT) {
+			if (inputData) {
 				fs.writeFileSync(txtFile, inputData);
 				console.log(`Created file: ${txtFile}`);
-			}
-			else {
-				console.log(`Input file ${i} not ready for download`);
 			}
 		}
 
