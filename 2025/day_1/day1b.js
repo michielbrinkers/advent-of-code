@@ -2,7 +2,7 @@
 const fs = require('fs');
 const input = fs.readFileSync('./input1.txt', 'utf8');
 
-let lines = input.split('\n');
+let lines = input.split('\n').filter(v => !!v); // split lines and filter empty lines
 // lines = ["L1000"];
 // lines = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"];
 
