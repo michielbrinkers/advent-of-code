@@ -14,3 +14,4 @@ for line in lines:
 			beams[b+1] = beams.get(b+1,0) + c  
 
 print(sum(beams.values()))
+# 16716444407407

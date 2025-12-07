@@ -4,7 +4,6 @@ with open("input7.txt" if not use_example else "example7.txt", "r") as file:
 	lines = file.read().splitlines()[::2] # even lines only, because we don't need the ... lines
 
 beams = set([lines.pop(0).find("S")])
-print(lines, beams)
 
 split_count = 0
 for line in lines:
@@ -16,3 +15,4 @@ for line in lines:
 			beams.add(b+1)
 			split_count += 1
 print(split_count)
+# 1585
