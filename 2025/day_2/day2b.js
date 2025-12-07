@@ -33,3 +33,4 @@ ranges.forEach(v => {
 });
 
 console.log(sum);
+// 4174379265

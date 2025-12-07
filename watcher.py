@@ -5,7 +5,6 @@ import subprocess
 
 POLL_INTERVAL = 1.0  # seconds
 
-
 def find_watch_files(root_dir: str) -> list[str]:
     """Return a list of all .py files under root_dir (recursively)."""
     watch_files = []
@@ -39,12 +38,13 @@ def run_script(path: str) -> None:
     script_dir = os.path.dirname(script_path)
     script_file = os.path.basename(script_path)
 
-    print(f"\n=== Change detected → running: {script_path} ===")
+    start = time.perf_counter()
+    print(f"\n=== Running: {script_file} ===")
     result = subprocess.run(
         [sys.executable if script_file.endswith(".py") else 'node', script_file],
         cwd=script_dir,
     )
-    print(f"=== Finished {script_path} (exit code {result.returncode}) ===\n")
+    print(f"=== Finished {script_file} in {time.perf_counter() - start:.4f} ===\n")
 
 
 def main() -> None:
