@@ -10,7 +10,7 @@ def find_watch_files(root_dir: str) -> list[str]:
     watch_files = []
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for name in filenames:
-            if not name.endswith((".py", ".js")) and not name.find('day'):
+            if not (name.endswith((".py", ".js")) and 'day' in name):
                 continue
             full_path = os.path.join(dirpath, name)
             # Don't watch the watcher itself
