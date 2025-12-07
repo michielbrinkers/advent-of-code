@@ -6,25 +6,25 @@ import subprocess
 POLL_INTERVAL = 1.0  # seconds
 
 
-def find_py_files(root_dir: str) -> list[str]:
+def find_watch_files(root_dir: str) -> list[str]:
     """Return a list of all .py files under root_dir (recursively)."""
-    py_files = []
+    watch_files = []
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for name in filenames:
-            if not name.endswith(".py"):
+            if not name.endswith((".py", ".js")) and not name.find('day'):
                 continue
             full_path = os.path.join(dirpath, name)
             # Don't watch the watcher itself
             if os.path.abspath(full_path) == os.path.abspath(__file__):
                 continue
-            py_files.append(full_path)
-    return py_files
+            watch_files.append(full_path)
+    return watch_files
 
 
 def build_mtime_map(root_dir: str) -> dict[str, float]:
     """Map file path → last modification time."""
     mtimes: dict[str, float] = {}
-    for path in find_py_files(root_dir):
+    for path in find_watch_files(root_dir):
         try:
             mtimes[path] = os.path.getmtime(path)
         except FileNotFoundError:
@@ -41,7 +41,7 @@ def run_script(path: str) -> None:
 
     print(f"\n=== Change detected → running: {script_path} ===")
     result = subprocess.run(
-        [sys.executable, script_file],
+        [sys.executable if script_file.endswith(".py") else 'node', script_file],
         cwd=script_dir,
     )
     print(f"=== Finished {script_path} (exit code {result.returncode}) ===\n")

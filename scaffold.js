@@ -96,20 +96,27 @@ async function fetchInput(year, day) {
 
 		const jsContent = `// https://adventofcode.com/${year}/day/${i}
 const fs = require('fs');
-const input = fs.readFileSync('./input${i}.txt', 'utf8');
+const use_example = true;
+const input = fs.readFileSync(\`\${use_example ? "example" : "input"}${i}.txt\`, 'utf8');
+
 `;
 
-		const jsFileA = path.join(dayDir, `day${i}a.js`);
-		if (!fs.existsSync(jsFileA)) {
-			fs.writeFileSync(jsFileA, jsContent);
-			console.log(`Created file: ${jsFileA}`);
-		}
+		const pyContent = `# https://adventofcode.com/2025/day/6
+use_example = True
+with open("input${i}.txt" if not use_example else "example${i}.txt", "r") as file:
+	lines = file.read().splitlines()
 
-		const jsFileB = path.join(dayDir, `day${i}b.js`);
-		if (!fs.existsSync(jsFileB)) {
-			fs.writeFileSync(jsFileB, jsContent);
-			console.log(`Created file: ${jsFileB}`);
-		}
+`;
+		["a", "b"].forEach(char => {
+			console.log(char);
+			Object.entries({ js: jsContent, py: pyContent }).forEach(kv => {
+				const file = path.join(dayDir, `day${i}${char}.${kv[0]}`);
+				if (!fs.existsSync(file)) {
+					fs.writeFileSync(file, kv[1]);
+					console.log(`Created file: ${file}`);
+				}
+			});
+		});
 	}
 	console.log('Scaffolding complete.');
 })();
