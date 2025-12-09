@@ -10,8 +10,8 @@ for line in lines:
 	for b,c in list(beams.items()):
 		if b in splits:
 			del beams[b]
-			beams[b-1] = beams.get(b-1,0) + c  
-			beams[b+1] = beams.get(b+1,0) + c  
+			beams[b-1] = beams.get(b-1,0) + c
+			beams[b+1] = beams.get(b+1,0) + c
 
 print(sum(beams.values()))
 # 16716444407407

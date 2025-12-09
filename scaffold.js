@@ -94,6 +94,12 @@ async function fetchInput(year, day) {
 			}
 		}
 
+		const exampleFile = path.join(dayDir, `example${i}.txt`);
+		if (!fs.existsSync(exampleFile)) {
+			fs.writeFileSync(exampleFile, "");
+			console.log(`Created file: ${exampleFile}`);
+		}
+
 		const jsContent = `// https://adventofcode.com/${year}/day/${i}
 const fs = require('fs');
 const use_example = true;
@@ -108,7 +114,6 @@ with open("input${i}.txt" if not use_example else "example${i}.txt", "r") as fil
 
 `;
 		["a", "b"].forEach(char => {
-			console.log(char);
 			Object.entries({ js: jsContent, py: pyContent }).forEach(kv => {
 				const file = path.join(dayDir, `day${i}${char}.${kv[0]}`);
 				if (!fs.existsSync(file)) {
