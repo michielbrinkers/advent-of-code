@@ -96,11 +96,6 @@ for i in range(10 if use_example else 1000):
 	coords.sort(key=lambda c: c.closest[1])
 	coords[0].connect_to_closest(circuits)
 
-	# print circuit status
-	# circuits.sort(key=lambda c: len(c[1]), reverse=True)
-	# print(i, [(id, len(junctions), [coord.idx for coord in junctions]) for id, junctions in circuits])
-
-
 # circuits.sort(key=lambda c: len(c[1]), reverse=True)
 # print([	(id, len(junctions), [coord.idx for coord in junctions]) for id, junctions in circuits])
 
@@ -108,5 +103,4 @@ for i in range(10 if use_example else 1000):
 conns = [len(circuit[1]) for circuit in circuits]
 conns.sort(reverse=True)
 print(math.prod(conns[:3]))
-
 # 66640

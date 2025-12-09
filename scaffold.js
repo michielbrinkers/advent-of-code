@@ -114,7 +114,8 @@ with open("input${i}.txt" if not use_example else "example${i}.txt", "r") as fil
 
 `;
 		["a", "b"].forEach(char => {
-			Object.entries({ js: jsContent, py: pyContent }).forEach(kv => {
+			//js: jsContent, 
+			Object.entries({ py: pyContent }).forEach(kv => {
 				const file = path.join(dayDir, `day${i}${char}.${kv[0]}`);
 				if (!fs.existsSync(file)) {
 					fs.writeFileSync(file, kv[1]);
