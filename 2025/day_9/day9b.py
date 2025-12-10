@@ -9,50 +9,38 @@ with open("input9.txt" if not use_example else "example9b.txt", "r") as file:
 coords = [tuple(map(int, line.split(","))) for line in lines]
 polygon = Polygon(coords)
 
-def fits_in_polygon(c1, c2, polygon):
+def fits_in_polygon(p1, p2, polygon):
 	# check that all corners fall within the polygon
-	corners = [
-		Point(min(c1[0], c2[0]), min(c1[1], c2[1])),
-		Point(max(c1[0], c2[0]), min(c1[1], c2[1])),
-		Point(max(c1[0], c2[0]), max(c1[1], c2[1])),
-		Point(min(c1[0], c2[0]), max(c1[1], c2[1]))
-	]
+	xmin, xmax = sorted((p1[0], p2[0]))
+	ymin, ymax = sorted((p1[1], p2[1]))
 
+	# check corner first, faster than checking the whole polygon cover
+	corners = [Point(xmin, ymin), Point(xmax, ymin), Point(xmax, ymax), Point(xmin, ymax)]
 	if any(not polygon.intersects(p) for p in corners):
 		return False
-	
-	# check there are no line intersections with the polygon boundary
-	lines = [
-		LineString([corners[0], corners[1]]),
-		LineString([corners[1], corners[2]]),
-		LineString([corners[2], corners[3]]),
-		LineString([corners[3], corners[0]])
-	]
 
-	for line in lines:
-		intersection = line.intersection(polygon.boundary)
-		if intersection.geom_type in ["MultiLineString", "GeometryCollection", "MultiPoint"]:
-			if len(intersection.geoms) > 2:
-				# if there are more than two geometries in the intersection we are crossing boundaries
-				return False
-	return True
+	# see if the rect covers the polygon	
+	rect = Polygon([ (xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax) ])
+	return polygon.covers(rect)
 
 largest = 0
 largest_box = (None, None)
-for c1 in coords:
-	for c2 in coords:
-		dx = abs(c1[0]-c2[0]) + 1
-		dy = abs(c1[1]-c2[1]) + 1
+for p1 in coords:
+	for p2 in coords:
+		# see if it's a viable candidate
+		dx = abs(p1[0]-p2[0]) + 1
+		dy = abs(p1[1]-p2[1]) + 1
 		size = dx*dy
 		
 		if size > largest:
-			if not fits_in_polygon(c1, c2, polygon):
-				continue # doesn't fit so skip
+			# see if the rect fits in the polygon
+			if not fits_in_polygon(p1, p2, polygon):
+				continue
 			largest = size
-			largest_box = (c1, c2)
+			largest_box = (p1, p2)
 			print("largest:", largest)
 
-
+"""
 ## Render shape for debugging
 zoom = -1  # zoom window radius
 corners = [
@@ -88,5 +76,5 @@ ax.set_aspect("equal", adjustable="box")
 
 plt.savefig("polygon.png")
 plt.close()
-
+"""
 # 1539809693
