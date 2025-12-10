@@ -52,6 +52,8 @@ for c1 in coords:
 			largest_box = (c1, c2)
 			print("largest:", largest)
 
+
+## Render shape for debugging
 zoom = -1  # zoom window radius
 corners = [
 	Point(min(largest_box[0][0], largest_box[1][0]), min(largest_box[0][1], largest_box[1][1])),
